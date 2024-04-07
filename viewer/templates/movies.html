@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        table tr:hover{
+            background-color: rgb(243, 246, 249);
+        }
+        table th{
+            background-color: rgb(213, 216, 219);
+        }
+    </style>
+
+    <body>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Release date</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                {% for movie in object_list %}
+                <tr>
+                    <td>{{ movie.title }}</td>
+                    <td>{{ movie.genre }}</td>
+                    <td>{{ movie.rating }}</td>
+                    <td>{{ movie.release_date }}</td>
+                    <td>{{ movie.description }}</td>
+                    <td><button type="submit" name="update" value="{{ movie.id }}" class="btn btn-sm btn-info">Edit</button></td>
+                    <td><button type="submit" name="delete" value="{{ movie.id }}" class="btn btn-sm btn-danger">Delete</button></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button type="submit" name="create" class="btn btn-success">Add</button>
+        </form>
+    </body>
+
+{% endblock %}

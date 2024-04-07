@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <p>
+        <button type="submit" name="button" value="create_movie">Create Movie</button>
+    </p>
+
+    <p>
+        <button type="submit" name="button" value="update_movie">Update Movie</button>
+
+        <button type="submit" name="button" value="delete_movie">Delete Movie</button>
+
+        <select name="movie_selection">
+            {% for movie in movies %}
+                <option value="{{ movie.id }}">{{ movie.title }}</option>
+            {% endfor %}
+        </select>
+
+    </p>
+
+    <p>
+        <button type="submit" name="button" value="fake_button">I am fake, don't click me!</button>
+    </p>
+</form>
+{% endblock %}

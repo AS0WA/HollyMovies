@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-center"> {{ hello_message }} </h1>
+
+{% for autor in autors %}
+    <h2> {{ autor }} </h2>
+{% endfor %}
+
+<!-- TODO: getting this element by ID -->
+<!--
+<div id="context-menu" class="hidden">
+  <ul>
+    <li><a href="#" data-action="action1">Action 1</a></li>
+    <li><a href="#" data-action="action2">Action 2</a></li>
+    </ul>
+</div>
+-->
+
+{% endblock %}

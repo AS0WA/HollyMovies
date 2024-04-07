@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        table tr:hover{
+            background-color: rgb(243, 246, 249);
+        }
+        table th{
+            background-color: rgb(213, 216, 219);
+        }
+    </style>
+
+    <body>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Date of birth</th>
+                    <th scope="col">Place of birth</th>
+                    <th scope="col">Awards</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                {% for actor in object_list %}
+                <tr>
+                    <td>{{ actor.name }}</td>
+                    <td>{{ actor.surname }}</td>
+                    <td>{{ actor.birth_date }}</td>
+                    <td>{{ actor.place_of_birth }}</td>
+                    <td>{{ actor.awards }}</td>
+                    <td><button type="submit" name="update" value="{{ actor.id }}" class="btn btn-sm btn-info">Edit</button></td>
+                    <td><button type="submit" name="delete" value="{{ actor.id }}" class="btn btn-sm btn-danger">Delete</button></td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button type="submit" name="create" value="1" class="btn btn-success">Add</button>
+        </form>
+    </body>
+
+{% endblock %}

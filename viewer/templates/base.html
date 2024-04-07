@@ -1,0 +1,126 @@
+{% load static %}
+
+<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}"{% endif %}>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HollyMovies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/contextmenu.css' %}">
+    <script src="{% static 'js/index.js' %}"></script>
+    <style>
+      footer{
+        bottom: 0px;
+        width: 100%;
+      }
+      .right {
+        float: right;
+        width: 300px;
+        text-align: right;
+      }
+      .left {
+        float: left;
+        width: 300px;
+        text-align: left;
+      }
+    </style>
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container fixed">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          HollyMovies
+        </a>
+        <button
+          class="navbar-toggler" type="button"
+          data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="{% url 'movies' %}">
+              Movies
+            </a>
+            <a class="nav-item nav-link active" href="{% url 'genres' %}">
+              Genres
+            </a>
+            <a class="nav-item nav-link active" href="{% url 'actors' %}">
+              Actors
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="navbar-nav ml-auto">
+          <div class="nav-item dropdown">
+            {% if user.is_authenticated %}
+              <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
+                {% if user.first_name %}
+                  Hello, {{ user.first_name }}!
+                {% else %}
+                  Hello, {{ user.username }}!
+                {% endif %}
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right text-center">
+                {% for group in user.groups.all %}
+                  {% if group.name == "Admin" %}
+                    <a class="btn btn-outline-dark" role="button" href="/admin/">Admin</a>
+                  {% else %}
+                    <p>{{ group }}</p>
+                  {% endif %}
+                {% endfor %}
+                <form method="post" style="margin: 5px;" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-dark">Logout</button>
+                  {% comment "TODO: make this widget submit for" %}
+                    <a class="dropdown-item text-right" href="{% url 'logout' %}">Logout</a>
+                  {% endcomment %}
+                </form>
+              <a class="btn btn-outline-dark" role="button" href="{% url 'password_change' %}">Change password</a>
+              </div>
+
+            {% else %}
+              <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
+                You are not logged in.
+              </a>
+              <div class="dropdown-menu dropdown-menu-right text-center">
+                <a class="btn btn-outline-dark" role="button" href="{% url 'login' %}">Login</a>
+                <a class="btn btn-outline-dark" role="button" href="{% url 'sign_up' %}">Sign Up</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+    </nav>
+
+    <div class="container">
+      <div class="jumbotron">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  <footer class="bg-body-tertiary text-center text-lg-start mt-auto">
+    <div class="text center p-3" style="background-color: rgba(0, 0 , 0, 0.1">
+      <div class="left">
+        <p style="margin-bottom: 0;">Ilosc aktorow w bazie: {{ num_of_actors }}</p>
+        <p style="margin-bottom: 0;">Ilosc filmow w bazie: {{ num_of_movies }}</p>
+      </div>
+      <div class="right">
+        <p style="margin-bottom: 0;">Czas: {{ czas }}</p>
+        <p style="margin-bottom: 0;">Data: {{ data }}</p>
+      </div>
+      <div>
+        <p>{{ ciekawostka }}</p>
+      </div>
+    </div>
+
+  </footer>
+  </body>
+</html>

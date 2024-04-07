@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Successfully logged out!</h1>
+
+<!-- ZADANIE 12
+  Zaimplementuj przycisk ktory przeniesie uzytkownika do ekranu logowania -->
+<a href="{% url 'login' %}" class="btn btn-primary">Zaloguj się ponownie</a>
+
+{% endblock %}
